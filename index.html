@@ -222,32 +222,6 @@ footer{padding-block:28px;color:var(--muted);font-size:13px;border-top:1px solid
   <section id="lab">
     <div class="sec-h"><div><span class="eyebrow" data-i="lab_eb">Interactive prototypes</span><h2 data-i="lab_h">Try the work, not just the description</h2><p data-i="lab_p">Front-end prototypes of real projects I delivered, rebuilt with sample data so you can use them here. The original systems are private client work.</p></div></div>
 
-    <!-- insurance -->
-    <div class="bench">
-      <div>
-        <span class="eyebrow" data-i="ins_eb">Insurance · quote engine</span>
-        <h3 data-i="ins_h">Insurance contract platform</h3>
-        <p data-i="ins_p">REST APIs to manage the full contract lifecycle (car, health, travel, student) and a quote engine that prices a policy from the client profile, coverage, duration and options. Online payment through Payzone.</p>
-        <div class="stack"><span>Java</span><span>Spring Boot</span><span>Angular 19</span><span>MySQL</span><span>Hexagonal architecture</span><span>Payzone</span></div>
-        <div class="result"><b>−60%</b><span data-i="ins_r">quote processing time</span></div>
-      </div>
-      <div class="demo">
-        <span class="demo-tag" data-i="ins_tag">Prototype · sample rates</span>
-        <form class="qf" id="qf">
-          <label for="qp"><span data-i="q_prod">Product</span><select id="qp"><option value="auto" data-i="p_auto">Car</option><option value="health" data-i="p_health">Health</option><option value="travel" data-i="p_travel">Travel</option><option value="student" data-i="p_student">Student</option></select></label>
-          <label for="qa"><span data-i="q_age">Client age</span><input id="qa" type="number" min="18" max="85" value="29"></label>
-          <label for="qd"><span data-i="q_dur">Duration (months)</span><select id="qd"><option>3</option><option>6</option><option selected>12</option><option>24</option></select></label>
-          <label for="qc"><span data-i="q_cov">Coverage</span><select id="qc"><option value="1" data-i="c1">Basic</option><option value="1.35" data-i="c2" selected>Plus</option><option value="1.8" data-i="c3">Premium</option></select></label>
-          <div class="opts">
-            <label><input type="checkbox" id="o1"> <span data-i="o1">Assistance 24/7</span></label>
-            <label><input type="checkbox" id="o2" checked> <span data-i="o2">Legal protection</span></label>
-            <label><input type="checkbox" id="o3"> <span data-i="o3">Zero deductible</span></label>
-          </div>
-          <div class="quote"><div class="breakdown" id="qb"></div><div class="price" id="qprice"></div></div>
-        </form>
-      </div>
-    </div>
-
     <!-- driver -->
     <div class="bench">
       <div>
@@ -266,26 +240,6 @@ footer{padding-block:28px;color:var(--muted);font-size:13px;border-top:1px solid
       </div>
     </div>
 
-    <!-- farm -->
-    <div class="bench">
-      <div>
-        <span class="eyebrow" data-i="farm_eb">Agriculture · IoT tracking</span>
-        <h3 data-i="farm_h">Farm machinery tracking</h3>
-        <p data-i="farm_p">An Android app that follows farm machines in real time: live location, running or paused state, and automatic alerts when usage hours reach the preventive maintenance threshold.</p>
-        <div class="stack"><span>Android</span><span>Java</span><span>Firestore</span><span>MVVM</span></div>
-        <div class="result"><b>+25%</b><span data-i="farm_r">farm productivity</span></div>
-      </div>
-      <div class="demo">
-        <span class="demo-tag" data-i="farm_tag">Prototype · simulated fleet, maintenance threshold 250 h</span>
-        <div class="farm-wrap">
-          <canvas id="farm" width="560" height="340" aria-label="Map of the field with moving machines"></canvas>
-          <div>
-            <div class="mach" id="mach"></div>
-            <div class="farm-ctl"><button type="button" id="fpause" data-i="f_pause">Pause sim</button><button type="button" id="ffast" data-i="f_fast">Speed ×10</button></div>
-          </div>
-        </div>
-      </div>
-    </div>
   </section>
 
   <section id="arch">
@@ -459,22 +413,6 @@ function renderAgent(){
   document.getElementById("q").placeholder=T[L].ph;
 }
 
-/* ---------- insurance quote ---------- */
-const BASE={auto:38,health:46,travel:14,student:9};
-function quote(){
-  const p=qp.value,age=Math.min(85,Math.max(18,+qa.value||18)),dur=+qd.value,cov=+qc.value;
-  let ageF = p==="auto" ? (age<25?1.45:age<65?1:1.25) : p==="health" ? (1+Math.max(0,age-30)*0.018) : p==="travel" ? (age>65?1.4:1) : (age>30?1.3:1);
-  const opts=(o1.checked?6:0)+(o2.checked?3.5:0)+(o3.checked?(p==="auto"?11:5):0);
-  const durF = dur>=24?0.9:dur>=12?0.95:dur>=6?1:1.08;
-  const monthly=(BASE[p]*ageF*cov+opts)*durF;
-  const t=T[L];
-  qprice.innerHTML=`${monthly.toFixed(2)} € <small>${t.per}</small>`;
-  qb.innerHTML=`${t.b_base} ${BASE[p].toFixed(2)} € × ${t.b_age} ${ageF.toFixed(2)} × ${t.b_cov} ${cov}<br>+ ${t.b_opt} ${opts.toFixed(2)} € · ${t.b_dur} ×${durF}<br>${t.total} ${dur} m = <b>${(monthly*dur).toFixed(2)} €</b>`;
-}
-const [qp,qa,qd,qc,o1,o2,o3,qprice,qb]=["qp","qa","qd","qc","o1","o2","o3","qprice","qb"].map(id=>document.getElementById(id));
-document.getElementById("qf").addEventListener("input",quote);
-document.getElementById("qf").addEventListener("submit",e=>e.preventDefault());
-
 /* ---------- driver app ---------- */
 const TRIPS=[
  {id:"T-2041",from:"Tanger Med",to:"Casablanca",cargo:{en:"Auto parts · 18 t",fr:"Pièces auto · 18 t",es:"Recambios · 18 t"},eta:"14:30",st:1},
@@ -508,49 +446,10 @@ function renderFeed(){
   f.innerHTML=incidents.map(i=>`<div class="inc"><strong>${esc(i.type)}</strong> · ${i.trip.from} → ${i.trip.to}<div>${esc(i.com)}</div><div class="m">${i.trip.id} · ${t.driver}: Youssef B. · ${i.time}${i.ph?` · ${i.ph} 📷`:""}</div></div>`).join("");
 }
 
-/* ---------- farm tracker ---------- */
-const cv=document.getElementById("farm"),cx=cv.getContext("2d");
-const M=[{n:"Tractor JD-01",h:231.5,x:80,y:70,dx:1,run:true,lane:70},{n:"Harvester CL-02",h:118.2,x:300,y:160,dx:-1,run:true,lane:160},{n:"Sprayer AM-03",h:248.6,x:200,y:250,dx:1,run:true,lane:250},{n:"Tractor NH-04",h:74.0,x:460,y:300,dx:0,run:false,lane:300}];
-let simPaused=false,speed=1;
-function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()}
-function drawFarm(){
-  const W=cv.width,H=cv.height;
-  cx.fillStyle=css("--accent-soft");cx.fillRect(0,0,W,H);
-  cx.strokeStyle=css("--line");cx.lineWidth=1;
-  for(let y=20;y<H;y+=22){cx.beginPath();cx.moveTo(20,y);cx.lineTo(W-20,y);cx.stroke()}
-  cx.strokeStyle=css("--muted");cx.setLineDash([5,5]);cx.strokeRect(20,20,W-40,H-40);cx.setLineDash([]);
-  cx.fillStyle=css("--muted");cx.font="11px 'IBM Plex Mono', monospace";cx.fillText("Parcelle / Field A · 42 ha",28,36);
-  M.forEach(m=>{
-    const al=m.h>=250, col= al?css("--bad"): m.run?css("--accent"):css("--muted");
-    cx.fillStyle=col;cx.beginPath();cx.arc(m.x,m.y,9,0,Math.PI*2);cx.fill();
-    if(m.run&&!al){cx.strokeStyle=col;cx.globalAlpha=.35;cx.beginPath();cx.arc(m.x,m.y,15,0,Math.PI*2);cx.stroke();cx.globalAlpha=1}
-    cx.fillStyle=css("--ink");cx.font="600 11px 'IBM Plex Sans', sans-serif";cx.fillText(m.n.split(" ")[1],m.x+13,m.y-10);
-  });
-}
-function renderMach(){
-  const t=T[L];
-  document.getElementById("mach").innerHTML=M.map(m=>{const al=m.h>=250;const cls=al?"alert":m.run?"run":"pause";const lab=al?t.alert:m.run?t.run:t.pause;
-    return `<div class="row"><div><div class="n">${m.n}</div><div class="h">${m.h.toFixed(1)} h / 250 h</div></div><span class="pill ${cls}">${lab}</span></div>`}).join("");
-}
-let last=performance.now();
-function tick(now){
-  const dt=Math.min(0.05,(now-last)/1000);last=now;
-  if(!simPaused){
-    M.forEach(m=>{
-      if(m.h>=250){m.run=false}
-      if(m.run){m.x+=m.dx*40*dt*speed;if(m.x>cv.width-40||m.x<40){m.dx*=-1;m.lane=m.lane+(m.lane<cv.height-60?22:-66);m.y=Math.min(cv.height-40,Math.max(50,m.lane))}m.h+=dt*speed*0.35}
-    });
-    if(Math.random()<0.002*speed){const m=M[3];if(m.h<250){m.run=!m.run;if(!m.dx)m.dx=1}}
-  }
-  drawFarm();
-  if(Math.floor(now/400)!==Math.floor((now-dt*1000)/400))renderMach();
-  requestAnimationFrame(tick);
-}
-document.getElementById("fpause").onclick=e=>{simPaused=!simPaused;e.target.textContent=simPaused?T[L].f_play:T[L].f_pause};
-document.getElementById("ffast").onclick=e=>{speed=speed===1?10:1;e.target.textContent=speed===1?T[L].f_fast:T[L].f_norm};
-
 /* ---------- other projects & timeline ---------- */
 const PROJ=[
+ {eb:{en:"Insurance · quote engine",fr:"Assurance · moteur de devis",es:"Seguros · motor de presupuestos"},h:{en:"Insurance contract platform",fr:"Plateforme de contrats d'assurance",es:"Plataforma de contratos de seguros"},p:{en:"REST APIs for the full contract lifecycle (car, health, travel, student) and a quote engine that prices a policy from the client profile, coverage, duration and options. Online payment through Payzone.",fr:"API REST pour tout le cycle de vie des contrats (auto, santé, voyage, étudiant) et un moteur de devis basé sur le profil du client, les garanties, la durée et les options. Paiement en ligne via Payzone.",es:"APIs REST para todo el ciclo de vida de los contratos (auto, salud, viaje, estudiante) y un motor de presupuestos según el perfil del cliente, las coberturas, la duración y las opciones. Pago online con Payzone."},s:["Java","Spring Boot","Angular 19","MySQL","Hexagonal architecture","Payzone"],r:{en:"−60% quote processing time",fr:"−60 % de temps de traitement des devis",es:"−60 % de tiempo de gestión de presupuestos"}},
+ {eb:{en:"Agriculture · IoT tracking",fr:"Agriculture · suivi IoT",es:"Agricultura · seguimiento IoT"},h:{en:"Farm machinery tracking",fr:"Suivi des machines agricoles",es:"Seguimiento de maquinaria agrícola"},p:{en:"Android app that follows farm machines in real time: live location, running or paused state, and automatic alerts when usage hours reach the preventive maintenance threshold.",fr:"Application Android qui suit les machines agricoles en temps réel : position, état en marche ou en pause, et alertes automatiques au seuil de maintenance préventive.",es:"App Android que sigue la maquinaria agrícola en tiempo real: ubicación, estado en marcha o en pausa y alertas automáticas al llegar al umbral de mantenimiento preventivo."},s:["Android","Java","Firestore","MVVM"],r:{en:"+25% farm productivity",fr:"+25 % de productivité des exploitations",es:"+25 % de productividad agrícola"}},
  {eb:{en:"Public sector · dashboard",fr:"Secteur public · tableau de bord",es:"Sector público · panel"},h:{en:"MCINET inspection services",fr:"Digitalisation des services de contrôle (MCINET)",es:"Digitalización de servicios de control (MCINET)"},p:{en:"Interactive KPI dashboard with charts and heat maps, automatic report generation with real-time data validation, and an optimized MySQL store for performance metrics.",fr:"Tableau de bord interactif avec graphiques et cartes thermiques, génération automatique de rapports avec validation des données en temps réel, et base MySQL optimisée pour les métriques.",es:"Panel interactivo de indicadores con gráficos y mapas de calor, generación automática de informes con validación en tiempo real y una base MySQL optimizada para las métricas."},s:["Node.js","React","MySQL","Microservices"],r:{en:"−30% reporting errors",fr:"−30 % d'erreurs de reporting",es:"−30 % de errores en informes"}},
  {eb:{en:"Property management · mobile",fr:"Syndic · mobile",es:"Comunidades · móvil"},h:{en:"Digital building management",fr:"Digitalisation des services de syndic",es:"Gestión digital de comunidades"},p:{en:"Incident management app (create, assign, close) with push notifications, photo history per intervention, and real-time payment tracking synced with the admin panel.",fr:"Application de gestion des incidents (création, assignation, clôture) avec notifications push, historique photo par intervention et suivi des paiements en temps réel synchronisé avec l'admin.",es:"App de gestión de incidencias (crear, asignar, cerrar) con notificaciones push, historial con fotos por intervención y seguimiento de pagos en tiempo real sincronizado con el panel."},s:["Android","Java","Firestore"],r:{en:"No more disputes over payment proof",fr:"Fin des litiges sur la preuve de paiement",es:"Sin disputas sobre justificantes de pago"}},
  {eb:{en:"Health · web",fr:"Santé · web",es:"Salud · web"},h:{en:"Nearby healthcare finder",fr:"Solution de santé à proximité",es:"Buscador de salud cercano"},p:{en:"Responsive Angular 17 + Tailwind interface with Google Maps API, smart filtering and real-time data in Firestore. Built during my internship at MOENN Technologies.",fr:"Interface Angular 17 + Tailwind responsive avec Google Maps API, filtrage intelligent et données en temps réel sur Firestore. Réalisé pendant mon stage chez MOENN Technologies.",es:"Interfaz responsive con Angular 17 + Tailwind, Google Maps API, filtrado inteligente y datos en tiempo real en Firestore. Hecho durante mis prácticas en MOENN Technologies."},s:["NestJS","Angular 17","Tailwind","Firestore"],r:{en:"−70% search time",fr:"−70 % de temps de recherche",es:"−70 % de tiempo de búsqueda"}},
@@ -574,10 +473,8 @@ function setLang(l){
   L=T[l]?l:"en";document.documentElement.lang=L;
   document.querySelectorAll("[data-i]").forEach(el=>{const k=el.dataset.i;if(T[L][k]!=null)el.textContent=T[L][k]});
   document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===L));
-  document.getElementById("fpause").textContent=simPaused?T[L].f_play:T[L].f_pause;
-  document.getElementById("ffast").textContent=speed===1?T[L].f_fast:T[L].f_norm;
   try{localStorage.setItem("lang",L)}catch(e){}
-  renderAgent();quote();renderPhone();renderFeed();renderMach();renderLists();
+  renderAgent();renderPhone();renderFeed();renderLists();
 }
 document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>setLang(b.dataset.l));
 document.getElementById("copy").onclick=async e=>{const btn=e.currentTarget;try{await navigator.clipboard.writeText("elgoualmouad@gmail.com");btn.textContent=T[L].copied}catch(err){const r=document.createRange();r.selectNodeContents(document.getElementById("mail"));const s=getSelection();s.removeAllRanges();s.addRange(r)}};
@@ -585,7 +482,6 @@ let start="en";
 const h=(location.hash||"").slice(1);
 if(T[h])start=h;else{try{const s=localStorage.getItem("lang");if(T[s])start=s;else throw 0}catch(e){const n=(navigator.language||"en").slice(0,2);if(T[n])start=n}}
 setLang(start);
-requestAnimationFrame(tick);
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script><script>mermaid.initialize({startOnLoad:true,theme:matchMedia("(prefers-color-scheme: dark)").matches?"dark":"neutral"});</script>
