@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mouad Elgoual Portfolio</title>
+<meta name="description" content="Mouad Elgoual — Java AI Engineer & Full Stack Developer (Spring AI, Spring Boot, Angular). Granada, Spain.">
+<link rel="canonical" href="https://elgmouad.github.io/">
+<meta property="og:title" content="Mouad Elgoual · Java AI Engineer">
+<meta property="og:description" content="AI agents with Spring AI · Full Stack (Spring Boot, Angular). Granada, Spain.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one 1080px column; hero = intro + live agent console side by side, then project prototypes as full-width "lab benches", then CV-style timeline. */
+:root{
+  --bg:#f4f5f1; --surface:#ffffff; --sunken:#eceee8; --ink:#16201c; --muted:#5a6660; --line:#dde1d9;
+  --accent:#2c7a4b; --accent-ink:#ffffff; --accent-soft:#e1efe5; --java:#b8612a; --java-soft:#f6e8dd;
+  --ok:#2c7a4b; --warn:#a86a10; --bad:#b3372f;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1412; --surface:#161d1a; --sunken:#111714; --ink:#e6ebe7; --muted:#9aa69f; --line:#28322d;
+  --accent:#5dbd84; --accent-ink:#0c1a12; --accent-soft:#1b2d22; --java:#e0925a; --java-soft:#2e2219;
+  --ok:#5dbd84; --warn:#e0a94a; --bad:#ec7b70; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1412; --surface:#161d1a; --sunken:#111714; --ink:#e6ebe7; --muted:#9aa69f; --line:#28322d;
+  --accent:#5dbd84; --accent-ink:#0c1a12; --accent-soft:#1b2d22; --java:#e0925a; --java-soft:#2e2219;
+  --ok:#5dbd84; --warn:#e0a94a; --bad:#ec7b70; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;padding-inline:20px}
+.wrap{max-width:1080px;margin:0 auto}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.1}
+.mono{font-family:var(--f-mono)}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);margin-inline:-20px;padding-inline:20px}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:10px;flex-wrap:wrap}
+.brand{font-family:var(--f-display);font-weight:700;font-size:18px;text-decoration:none;color:var(--ink)}
+.brand span{color:var(--accent)}
+.nav{display:flex;gap:18px;flex-wrap:wrap}
+.nav a{color:var(--muted);text-decoration:none;font-size:14px}
+.nav a:hover{color:var(--ink)}
+.lang{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.lang button{border:0;background:transparent;color:var(--muted);font:500 13px var(--f-mono);padding:5px 11px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+/* hero */
+.hero{display:grid;grid-template-columns:1fr 1.05fr;gap:40px;padding-block:56px 40px;align-items:start}
+.hero>*{min-width:0}
+.who{display:flex;gap:16px;align-items:center;margin-bottom:22px}
+.who img{width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid var(--surface);box-shadow:0 0 0 1px var(--line)}
+.who .eyebrow{display:block}
+.hero h1{font-size:clamp(38px,6vw,62px);font-weight:800;letter-spacing:-.02em}
+.hero h1 em{font-style:normal;color:var(--java)}
+.lede{font-size:18px;color:var(--muted);max-width:34em;margin:18px 0 22px}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.chip{font:500 13px var(--f-mono);padding:4px 10px;border-radius:999px;background:var(--sunken);border:1px solid var(--line);color:var(--ink)}
+.cta{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:8px;font:600 15px var(--f-body);padding:10px 16px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);text-decoration:none;cursor:pointer}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.copybox{display:inline-flex;align-items:center;gap:6px;font:14px var(--f-mono);color:var(--muted)}
+.copybox code{user-select:all;color:var(--ink)}
+.copybox button{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:6px;font:12px var(--f-mono);padding:3px 8px;cursor:pointer}
+/* agent console */
+.console{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 18px 40px -28px rgba(20,40,30,.45)}
+.console-h{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--sunken)}
+.console-h strong{font-family:var(--f-display);font-size:15px}
+.live{font:500 11px var(--f-mono);color:var(--ok);display:flex;align-items:center;gap:6px}
+.live:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ok)}
+.log{height:300px;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.msg{max-width:92%;font-size:14.5px;padding:10px 12px;border-radius:10px}
+.msg.user{align-self:flex-end;background:var(--ink);color:var(--bg)}
+.msg.bot{align-self:flex-start;background:var(--sunken);border:1px solid var(--line)}
+.trace{font:12px var(--f-mono);color:var(--muted);margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}
+.trace .t{padding:2px 7px;border-radius:5px;background:var(--surface);border:1px solid var(--line)}
+.trace .t.hr{color:var(--java)} .trace .t.it{color:var(--accent)}
+.sugg{display:flex;gap:6px;flex-wrap:wrap;padding:0 16px 10px}
+.sugg button{font:13px var(--f-body);border:1px dashed var(--line);background:transparent;color:var(--muted);border-radius:999px;padding:4px 10px;cursor:pointer}
+.sugg button:hover{color:var(--ink);border-color:var(--muted)}
+.ask{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--line)}
+.ask input{flex:1;min-width:0;font:15px var(--f-body);padding:9px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.note{font-size:12.5px;color:var(--muted);padding:0 16px 14px}
+/* sections */
+section{padding-block:44px;border-top:1px solid var(--line)}
+.sec-h{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.sec-h h2{font-size:clamp(28px,4vw,38px);font-weight:700}
+.sec-h p{color:var(--muted);max-width:36em;margin:6px 0 0}
+/* lab benches */
+.bench{display:grid;grid-template-columns:.9fr 1.1fr;gap:28px;padding:26px;background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:22px}
+.bench>*{min-width:0}
+.bench h3{font-size:24px;font-weight:700;margin:6px 0 8px}
+.bench p{color:var(--muted);margin:0 0 12px}
+.stack{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 14px}
+.stack span{font:12px var(--f-mono);padding:2px 8px;border-radius:5px;background:var(--java-soft);color:var(--java)}
+.result{font-size:14.5px;border-left:3px solid var(--accent);padding:4px 0 4px 12px;color:var(--ink)}
+.result b{font-family:var(--f-display);font-size:20px;color:var(--accent);margin-right:6px}
+.demo{background:var(--sunken);border:1px solid var(--line);border-radius:10px;padding:18px}
+.demo-tag{font:11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;display:block}
+/* quote form */
+.qf{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.qf label{font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+.qf select,.qf input[type=number]{font:15px var(--f-body);padding:8px;border-radius:7px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.opts{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:12px;font-size:14px}
+.opts label{flex-direction:row;align-items:center;color:var(--ink)}
+.quote{grid-column:1/-1;display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap;border-top:1px dashed var(--line);padding-top:12px}
+.quote .price{font:800 34px var(--f-display);font-variant-numeric:tabular-nums}
+.quote .price small{font:500 14px var(--f-body);color:var(--muted)}
+.breakdown{font:12.5px var(--f-mono);color:var(--muted);line-height:1.6}
+/* driver app */
+.driver{display:grid;grid-template-columns:240px 1fr;gap:18px;align-items:start}
+.driver>*{min-width:0}
+.phone{background:var(--ink);border-radius:26px;padding:10px;max-width:240px}
+.screen{background:var(--surface);border-radius:18px;height:420px;overflow-y:auto;padding:12px;color:var(--ink)}
+.screen h4{font:700 15px var(--f-display);margin:2px 0 10px}
+.trip{border:1px solid var(--line);border-radius:9px;padding:9px;margin-bottom:8px;cursor:pointer;background:var(--bg);width:100%;text-align:left;color:var(--ink);font:inherit}
+.trip .r{font-weight:600;font-size:13.5px}
+.trip .m{font:11.5px var(--f-mono);color:var(--muted)}
+.st{font:600 10.5px var(--f-mono);padding:1px 6px;border-radius:4px;display:inline-block;margin-top:4px}
+.st.s1{background:var(--accent-soft);color:var(--ok)} .st.s2{background:var(--java-soft);color:var(--java)} .st.s3{background:var(--sunken);color:var(--muted)}
+.screen form{display:flex;flex-direction:column;gap:8px;font-size:13px}
+.screen select,.screen textarea{font:13px var(--f-body);padding:6px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.screen input[type=file]{font-size:11.5px;max-width:100%}
+.linkbtn{background:none;border:0;color:var(--accent);font:600 13px var(--f-body);cursor:pointer;padding:0;margin-bottom:8px}
+.feed{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px;min-height:200px}
+.feed h4{font:700 14px var(--f-display);margin:0 0 8px}
+.inc{border-left:3px solid var(--bad);padding:6px 10px;margin-bottom:8px;font-size:13.5px;background:var(--bg);border-radius:0 6px 6px 0}
+.inc .m{font:11.5px var(--f-mono);color:var(--muted)}
+.empty{font-size:13px;color:var(--muted)}
+/* farm */
+.farm-wrap{display:grid;grid-template-columns:1fr 210px;gap:14px}
+.farm-wrap>*{min-width:0}
+canvas{width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block}
+.mach{font-size:13px}
+.mach .row{display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px solid var(--line)}
+.mach .row:last-child{border-bottom:0}
+.mach .n{font-weight:600}
+.mach .h{font:12px var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.pill{font:600 10.5px var(--f-mono);padding:1px 6px;border-radius:4px}
+.pill.run{background:var(--accent-soft);color:var(--ok)} .pill.pause{background:var(--sunken);color:var(--muted);border:1px solid var(--line)} .pill.alert{background:var(--java-soft);color:var(--bad)}
+.farm-ctl{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.farm-ctl button{font:13px var(--f-body);padding:6px 10px;border-radius:7px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+/* other projects */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px}
+.card{padding:20px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.card h3{font-size:19px;margin:6px 0 8px}
+.card p{color:var(--muted);font-size:14.5px;margin:0 0 10px}
+/* architecture */
+.arch{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;overflow-x:auto}
+/* experience */
+.tl{display:flex;flex-direction:column;gap:0}
+.tl .it{display:grid;grid-template-columns:170px 1fr;gap:20px;padding:16px 0;border-bottom:1px solid var(--line)}
+.tl .it>*{min-width:0}
+.tl .d{font:13px var(--f-mono);color:var(--muted)}
+.tl h3{font-size:18px}
+.tl .org{color:var(--java);font-weight:600;font-size:14.5px}
+.tl p{margin:6px 0 0;color:var(--muted);font-size:14.5px}
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+.skills h3{font-size:15px;font-family:var(--f-mono);font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.skills .facts{margin:0}
+.contact{display:grid;grid-template-columns:1.2fr 1fr;gap:28px;align-items:center}
+.contact>*{min-width:0}
+.contact h2{font-size:clamp(28px,4vw,40px)}
+footer{padding-block:28px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+@media (max-width:860px){
+  .hero,.bench,.contact{grid-template-columns:1fr}
+  .driver{grid-template-columns:1fr}
+  .phone{margin:0 auto}
+  .farm-wrap{grid-template-columns:1fr}
+  .tl .it{grid-template-columns:1fr;gap:4px}
+  .nav{display:none}
+  .qf{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+</head><body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="#top">Mouad<span>.</span>Elgoual</a>
+  <nav class="nav">
+    <a href="#lab" data-i="nav_lab">Prototypes</a>
+    <a href="#projects" data-i="nav_proj">Projects</a>
+    <a href="#exp" data-i="nav_exp">Experience</a>
+    <a href="#contact" data-i="nav_contact">Contact</a>
+  </nav>
+  <div class="lang" role="group" aria-label="Language">
+    <button type="button" data-l="en" aria-pressed="false">EN</button>
+    <button type="button" data-l="fr" aria-pressed="false">FR</button>
+    <button type="button" data-l="es" aria-pressed="false">ES</button>
+  </div>
+</div></header>
+
+<main class="wrap" id="top">
+  <div class="hero">
+    <div>
+      <div class="who"><img src="data:image/jpeg;base64,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" alt="Mouad Elgoual"><div><strong>Mouad Elgoual</strong><span class="eyebrow" data-i="loc">Granada, Spain · Open to work</span></div></div>
+      <h1><span data-i="h1a">Java</span> <em data-i="h1m">AI</em> <span data-i="h1b">Engineer</span></h1>
+      <p class="lede" data-i="lede">I build AI agents and full stack applications with Java, Spring Boot and Spring AI. Try the support agent on the right: it answers from company documents and shows the sources it used.</p>
+      <div class="facts">
+        <span class="chip">Spring AI</span><span class="chip">Spring Boot</span><span class="chip">RAG</span><span class="chip">Angular</span><span class="chip">React</span><span class="chip">Kafka</span><span class="chip">Docker</span>
+      </div>
+      <div class="cta">
+        <a class="btn primary" href="#lab" data-i="cta_lab">See the prototypes</a>
+        <a class="btn" href="https://www.linkedin.com/in/mouad-elgoual/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+
+    <div class="console" aria-label="AI support agent demo">
+      <div class="console-h"><strong data-i="agent_t">Internal Support Agent</strong><span class="live" data-i="agent_live">prototype · runs in your browser</span></div>
+      <div class="log" id="log" aria-live="polite"></div>
+      <div class="sugg" id="sugg"></div>
+      <form class="ask" id="askf">
+        <label for="q" class="eyebrow" style="position:absolute;left:-9999px">Question</label>
+        <input id="q" autocomplete="off" placeholder="Ask about HR or IT…">
+        <button class="btn primary" type="submit" data-i="send">Ask</button>
+      </form>
+      <p class="note" data-i="agent_note">Demo with sample documents and simple retrieval, so there is no LLM call. The production version uses Spring AI, embeddings, a vector store and OpenAI / Ollama / DeepSeek models.</p>
+    </div>
+  </div>
+
+  <section id="lab">
+    <div class="sec-h"><div><span class="eyebrow" data-i="lab_eb">Interactive prototypes</span><h2 data-i="lab_h">Try the work, not just the description</h2><p data-i="lab_p">Front-end prototypes of real projects I delivered, rebuilt with sample data so you can use them here. The original systems are private client work.</p></div></div>
+
+    <!-- insurance -->
+    <div class="bench">
+      <div>
+        <span class="eyebrow" data-i="ins_eb">Insurance · quote engine</span>
+        <h3 data-i="ins_h">Insurance contract platform</h3>
+        <p data-i="ins_p">REST APIs to manage the full contract lifecycle (car, health, travel, student) and a quote engine that prices a policy from the client profile, coverage, duration and options. Online payment through Payzone.</p>
+        <div class="stack"><span>Java</span><span>Spring Boot</span><span>Angular 19</span><span>MySQL</span><span>Hexagonal architecture</span><span>Payzone</span></div>
+        <div class="result"><b>−60%</b><span data-i="ins_r">quote processing time</span></div>
+      </div>
+      <div class="demo">
+        <span class="demo-tag" data-i="ins_tag">Prototype · sample rates</span>
+        <form class="qf" id="qf">
+          <label for="qp"><span data-i="q_prod">Product</span><select id="qp"><option value="auto" data-i="p_auto">Car</option><option value="health" data-i="p_health">Health</option><option value="travel" data-i="p_travel">Travel</option><option value="student" data-i="p_student">Student</option></select></label>
+          <label for="qa"><span data-i="q_age">Client age</span><input id="qa" type="number" min="18" max="85" value="29"></label>
+          <label for="qd"><span data-i="q_dur">Duration (months)</span><select id="qd"><option>3</option><option>6</option><option selected>12</option><option>24</option></select></label>
+          <label for="qc"><span data-i="q_cov">Coverage</span><select id="qc"><option value="1" data-i="c1">Basic</option><option value="1.35" data-i="c2" selected>Plus</option><option value="1.8" data-i="c3">Premium</option></select></label>
+          <div class="opts">
+            <label><input type="checkbox" id="o1"> <span data-i="o1">Assistance 24/7</span></label>
+            <label><input type="checkbox" id="o2" checked> <span data-i="o2">Legal protection</span></label>
+            <label><input type="checkbox" id="o3"> <span data-i="o3">Zero deductible</span></label>
+          </div>
+          <div class="quote"><div class="breakdown" id="qb"></div><div class="price" id="qprice"></div></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- driver -->
+    <div class="bench">
+      <div>
+        <span class="eyebrow" data-i="drv_eb">Logistics · mobile</span>
+        <h3 data-i="drv_h">Connect Camion · driver app</h3>
+        <p data-i="drv_p">A modular Flutter app for truck drivers: assigned trips, live status and full trip history from the Connect Camion APIs. Drivers report incidents with a comment, audio or photos, and the manager receives them right away.</p>
+        <div class="stack"><span>Flutter</span><span>REST API</span><span>Modular architecture</span></div>
+        <div class="result"><span data-i="drv_r">Faster incident handling and better driver ↔ manager communication</span></div>
+      </div>
+      <div class="demo">
+        <span class="demo-tag" data-i="drv_tag">Prototype · tap a trip, then report an incident</span>
+        <div class="driver">
+          <div class="phone"><div class="screen" id="screen"></div></div>
+          <div class="feed"><h4 data-i="feed_h">Manager dashboard · incidents</h4><div id="feed"><p class="empty" data-i="feed_empty">No incidents yet. Report one from the phone.</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- farm -->
+    <div class="bench">
+      <div>
+        <span class="eyebrow" data-i="farm_eb">Agriculture · IoT tracking</span>
+        <h3 data-i="farm_h">Farm machinery tracking</h3>
+        <p data-i="farm_p">An Android app that follows farm machines in real time: live location, running or paused state, and automatic alerts when usage hours reach the preventive maintenance threshold.</p>
+        <div class="stack"><span>Android</span><span>Java</span><span>Firestore</span><span>MVVM</span></div>
+        <div class="result"><b>+25%</b><span data-i="farm_r">farm productivity</span></div>
+      </div>
+      <div class="demo">
+        <span class="demo-tag" data-i="farm_tag">Prototype · simulated fleet, maintenance threshold 250 h</span>
+        <div class="farm-wrap">
+          <canvas id="farm" width="560" height="340" aria-label="Map of the field with moving machines"></canvas>
+          <div>
+            <div class="mach" id="mach"></div>
+            <div class="farm-ctl"><button type="button" id="fpause" data-i="f_pause">Pause sim</button><button type="button" id="ffast" data-i="f_fast">Speed ×10</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="arch">
+    <div class="sec-h"><div><span class="eyebrow" data-i="arch_eb">How the agent works</span><h2 data-i="arch_h">Spring AI agent architecture</h2><p data-i="arch_p">The production design behind the support agent above.</p></div></div>
+    <div class="arch">
+<pre class="mermaid">
+flowchart LR
+  U[Employee · Angular chat] --> API[Spring Boot API<br/>Spring Security]
+  API --> R{Domain router<br/>HR · IT · Other}
+  R --> RAG[Spring AI RAG<br/>embeddings + vector store]
+  RAG --> D[(HR manuals<br/>IT docs · policies)]
+  R --> T[Tool calls<br/>tickets · user directory]
+  RAG --> LLM[LLM gateway<br/>OpenAI · Ollama · DeepSeek]
+  T --> LLM
+  LLM --> A[Answer + sources]
+  A --> U
+  API --> O[Prometheus · Grafana]
+</pre>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="sec-h"><div><span class="eyebrow" data-i="proj_eb">More delivered projects</span><h2 data-i="proj_h">Other projects</h2></div></div>
+    <div class="grid" id="pgrid"></div>
+  </section>
+
+  <section id="exp">
+    <div class="sec-h"><div><span class="eyebrow" data-i="exp_eb">Experience & education</span><h2 data-i="exp_h">Background</h2></div></div>
+    <div class="tl" id="tl"></div>
+  </section>
+
+  <section id="skills">
+    <div class="sec-h"><div><span class="eyebrow" data-i="sk_eb">Toolbox</span><h2 data-i="sk_h">Skills & languages</h2></div></div>
+    <div class="skills">
+      <div><h3 data-i="sk1">Backend & AI</h3><div class="facts"><span class="chip">Java</span><span class="chip">Spring Boot</span><span class="chip">Spring AI</span><span class="chip">Spring Security</span><span class="chip">Hibernate</span><span class="chip">NestJS</span><span class="chip">Node.js</span><span class="chip">RAG</span><span class="chip">REST · GraphQL</span></div></div>
+      <div><h3 data-i="sk2">Frontend & mobile</h3><div class="facts"><span class="chip">Angular · NgRx</span><span class="chip">React · Redux</span><span class="chip">TypeScript</span><span class="chip">Tailwind CSS</span><span class="chip">Flutter</span><span class="chip">Android</span></div></div>
+      <div><h3 data-i="sk3">Data & DevOps</h3><div class="facts"><span class="chip">PostgreSQL</span><span class="chip">MySQL</span><span class="chip">MongoDB</span><span class="chip">Firestore</span><span class="chip">Kafka</span><span class="chip">Docker</span><span class="chip">Jenkins</span><span class="chip">JUnit</span><span class="chip">Prometheus · Grafana</span></div></div>
+      <div><h3 data-i="sk4">Languages</h3><div class="facts"><span class="chip" data-i="l_fr">French · professional</span><span class="chip" data-i="l_en">English · professional</span><span class="chip" data-i="l_ar">Arabic · native</span><span class="chip" data-i="l_es">Spanish · learning</span></div></div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="contact">
+      <div><span class="eyebrow" data-i="ct_eb">Contact</span><h2 data-i="ct_h">Looking for a Java / AI engineer in Granada or remote?</h2><p class="lede" data-i="ct_p">I'm open to Full Stack, Java and AI Engineer roles, especially on international projects in English or French.</p></div>
+      <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start">
+        <div class="copybox"><code id="mail">elgoualmouad@gmail.com</code><button type="button" id="copy" data-i="copy">Copy</button></div>
+        <a class="btn primary" href="https://www.linkedin.com/in/mouad-elgoual/" target="_blank" rel="noopener" data-i="ct_li">Message me on LinkedIn</a>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="wrap"><span data-i="foot">Prototypes use sample data. Built by Mouad Elgoual · Granada, 2026.</span></footer>
+
+<script>
+const PHOTO_OK=true;
+const T={
+en:{nav_lab:"Prototypes",nav_proj:"Projects",nav_exp:"Experience",nav_contact:"Contact",loc:"Granada, Spain · Open to work",h1a:"Java",h1m:"AI",h1b:"Engineer",
+lede:"I build AI agents and full stack applications with Java, Spring Boot and Spring AI. Try the support agent on the right: it answers from company documents and shows the sources it used.",
+cta_lab:"See the prototypes",agent_t:"Internal Support Agent",agent_live:"prototype · runs in your browser",send:"Ask",ph:"Ask about HR or IT…",
+agent_note:"Demo with sample documents and simple retrieval, so there is no LLM call. The production version uses Spring AI, embeddings, a vector store and OpenAI / Ollama / DeepSeek models.",
+lab_eb:"Interactive prototypes",lab_h:"Try the work, not just the description",lab_p:"Front-end prototypes of real projects I delivered, rebuilt with sample data so you can use them here. The original systems are private client work.",
+ins_eb:"Insurance · quote engine",ins_h:"Insurance contract platform",ins_p:"REST APIs to manage the full contract lifecycle (car, health, travel, student) and a quote engine that prices a policy from the client profile, coverage, duration and options. Online payment through Payzone.",ins_r:"quote processing time",ins_tag:"Prototype · sample rates",
+q_prod:"Product",p_auto:"Car",p_health:"Health",p_travel:"Travel",p_student:"Student",q_age:"Client age",q_dur:"Duration (months)",q_cov:"Coverage",c1:"Basic",c2:"Plus",c3:"Premium",o1:"Assistance 24/7",o2:"Legal protection",o3:"Zero deductible",
+b_base:"base",b_age:"age factor",b_cov:"coverage",b_opt:"options",b_dur:"duration",per:"/ month",total:"total",
+drv_eb:"Logistics · mobile",drv_h:"Connect Camion · driver app",drv_p:"A modular Flutter app for truck drivers: assigned trips, live status and full trip history from the Connect Camion APIs. Drivers report incidents with a comment, audio or photos, and the manager receives them right away.",drv_r:"Faster incident handling and better driver ↔ manager communication",drv_tag:"Prototype · tap a trip, then report an incident",
+feed_h:"Manager dashboard · incidents",feed_empty:"No incidents yet. Report one from the phone.",my_trips:"My trips",back:"← Back",report:"Report an incident",inc_type:"Type",it1:"Delay",it2:"Breakdown",it3:"Damaged goods",it4:"Road closed",comment:"Comment",photos:"Photos",submit:"Send to manager",sent:"Sent. The manager has it.",s1:"In progress",s2:"Assigned",s3:"Delivered",cargo:"Cargo",eta:"ETA",from:"from",driver:"Driver",
+farm_eb:"Agriculture · IoT tracking",farm_h:"Farm machinery tracking",farm_p:"An Android app that follows farm machines in real time: live location, running or paused state, and automatic alerts when usage hours reach the preventive maintenance threshold.",farm_r:"farm productivity",farm_tag:"Prototype · simulated fleet, maintenance threshold 250 h",f_pause:"Pause sim",f_play:"Resume sim",f_fast:"Speed ×10",f_norm:"Normal speed",run:"running",pause:"paused",alert:"maintenance",
+arch_eb:"How the agent works",arch_h:"Spring AI agent architecture",arch_p:"The production design behind the support agent above.",
+proj_eb:"More delivered projects",proj_h:"Other projects",exp_eb:"Experience & education",exp_h:"Background",sk_eb:"Toolbox",sk_h:"Skills & languages",sk1:"Backend & AI",sk2:"Frontend & mobile",sk3:"Data & DevOps",sk4:"Languages",
+l_fr:"French · professional",l_en:"English · professional",l_ar:"Arabic · native",l_es:"Spanish · learning",
+ct_eb:"Contact",ct_h:"Looking for a Java / AI engineer in Granada or remote?",ct_p:"I'm open to Full Stack, Java and AI Engineer roles, especially on international projects in English or French.",copy:"Copy",copied:"Copied",ct_li:"Message me on LinkedIn",foot:"Prototypes use sample data. Built by Mouad Elgoual · Granada, 2026.",
+nores:"I couldn't find that in the documents I have. I'd open a ticket and route it to the right team.",hi:"Hi! I answer HR and IT questions from the company's documents. Try one of the questions below.",src:"source",dom:"domain",ms:"ms"},
+fr:{nav_lab:"Prototypes",nav_proj:"Projets",nav_exp:"Parcours",nav_contact:"Contact",loc:"Granada, Espagne · Ouvert aux opportunités",h1a:"Ingénieur Java",h1m:"& IA",h1b:"",
+lede:"Je construis des agents IA et des applications full stack avec Java, Spring Boot et Spring AI. Essayez l'agent de support à droite : il répond à partir des documents de l'entreprise et montre ses sources.",
+cta_lab:"Voir les prototypes",agent_t:"Agent de support interne",agent_live:"prototype · tourne dans votre navigateur",send:"Envoyer",ph:"Posez une question RH ou IT…",
+agent_note:"Démo avec des documents d'exemple et une recherche simple, sans appel à un LLM. La version en production utilise Spring AI, des embeddings, une base vectorielle et les modèles OpenAI / Ollama / DeepSeek.",
+lab_eb:"Prototypes interactifs",lab_h:"Testez le travail, pas seulement la description",lab_p:"Des prototypes front-end de projets réels que j'ai livrés, reconstruits avec des données d'exemple pour que vous puissiez les utiliser ici. Les systèmes d'origine sont privés.",
+ins_eb:"Assurance · moteur de devis",ins_h:"Plateforme de contrats d'assurance",ins_p:"Des API REST pour gérer tout le cycle de vie des contrats (auto, santé, voyage, étudiant) et un moteur qui calcule le devis selon le profil du client, les garanties, la durée et les options. Paiement en ligne via Payzone.",ins_r:"de temps de traitement des devis",ins_tag:"Prototype · tarifs d'exemple",
+q_prod:"Produit",p_auto:"Auto",p_health:"Santé",p_travel:"Voyage",p_student:"Étudiant",q_age:"Âge du client",q_dur:"Durée (mois)",q_cov:"Garantie",c1:"Essentielle",c2:"Confort",c3:"Premium",o1:"Assistance 24h/24",o2:"Protection juridique",o3:"Zéro franchise",
+b_base:"base",b_age:"facteur âge",b_cov:"garantie",b_opt:"options",b_dur:"durée",per:"/ mois",total:"total",
+drv_eb:"Logistique · mobile",drv_h:"Connect Camion · app chauffeur",drv_p:"Une application Flutter modulaire pour les chauffeurs : voyages attribués, statut en temps réel et historique complet via les API Connect Camion. Le chauffeur signale un imprévu avec un commentaire, un audio ou des photos, et le gestionnaire le reçoit tout de suite.",drv_r:"Gestion des incidents plus rapide et meilleure communication chauffeur ↔ gestionnaire",drv_tag:"Prototype · touchez un voyage, puis signalez un incident",
+feed_h:"Tableau du gestionnaire · incidents",feed_empty:"Aucun incident pour l'instant. Signalez-en un depuis le téléphone.",my_trips:"Mes voyages",back:"← Retour",report:"Signaler un incident",inc_type:"Type",it1:"Retard",it2:"Panne",it3:"Marchandise abîmée",it4:"Route fermée",comment:"Commentaire",photos:"Photos",submit:"Envoyer au gestionnaire",sent:"Envoyé. Le gestionnaire l'a reçu.",s1:"En cours",s2:"Attribué",s3:"Livré",cargo:"Chargement",eta:"Arrivée",from:"de",driver:"Chauffeur",
+farm_eb:"Agriculture · suivi IoT",farm_h:"Suivi des machines agricoles",farm_p:"Une application Android qui suit les machines agricoles en temps réel : position, état en marche ou en pause, et alertes automatiques quand les heures d'utilisation atteignent le seuil de maintenance préventive.",farm_r:"de productivité des exploitations",farm_tag:"Prototype · flotte simulée, seuil de maintenance 250 h",f_pause:"Pause",f_play:"Reprendre",f_fast:"Vitesse ×10",f_norm:"Vitesse normale",run:"en marche",pause:"en pause",alert:"maintenance",
+arch_eb:"Comment fonctionne l'agent",arch_h:"Architecture de l'agent Spring AI",arch_p:"La conception en production derrière l'agent de support ci-dessus.",
+proj_eb:"Autres projets livrés",proj_h:"Autres projets",exp_eb:"Expérience et formation",exp_h:"Parcours",sk_eb:"Boîte à outils",sk_h:"Compétences et langues",sk1:"Backend et IA",sk2:"Frontend et mobile",sk3:"Données et DevOps",sk4:"Langues",
+l_fr:"Français · professionnel",l_en:"Anglais · professionnel",l_ar:"Arabe · langue maternelle",l_es:"Espagnol · en apprentissage",
+ct_eb:"Contact",ct_h:"Vous cherchez un ingénieur Java / IA à Granada ou à distance ?",ct_p:"Je suis ouvert aux postes Full Stack, Java et AI Engineer, en particulier sur des projets internationaux en anglais ou en français.",copy:"Copier",copied:"Copié",ct_li:"M'écrire sur LinkedIn",foot:"Les prototypes utilisent des données d'exemple. Réalisé par Mouad Elgoual · Granada, 2026.",
+nores:"Je n'ai pas trouvé cette information dans mes documents. J'ouvrirais un ticket pour la bonne équipe.",hi:"Bonjour ! Je réponds aux questions RH et IT à partir des documents de l'entreprise. Essayez une des questions ci-dessous.",src:"source",dom:"domaine",ms:"ms"},
+es:{nav_lab:"Prototipos",nav_proj:"Proyectos",nav_exp:"Experiencia",nav_contact:"Contacto",loc:"Granada, España · Disponible",h1a:"Ingeniero Java",h1m:"& IA",h1b:"",
+lede:"Construyo agentes de IA y aplicaciones full stack con Java, Spring Boot y Spring AI. Prueba el agente de soporte de la derecha: responde a partir de los documentos de la empresa y muestra sus fuentes.",
+cta_lab:"Ver los prototipos",agent_t:"Agente de soporte interno",agent_live:"prototipo · funciona en tu navegador",send:"Preguntar",ph:"Pregunta sobre RR. HH. o IT…",
+agent_note:"Demo con documentos de ejemplo y una búsqueda sencilla, sin llamada a un LLM. La versión en producción usa Spring AI, embeddings, una base vectorial y modelos de OpenAI / Ollama / DeepSeek.",
+lab_eb:"Prototipos interactivos",lab_h:"Prueba el trabajo, no solo la descripción",lab_p:"Prototipos front-end de proyectos reales que entregué, reconstruidos con datos de ejemplo para que puedas usarlos aquí. Los sistemas originales son privados.",
+ins_eb:"Seguros · motor de presupuestos",ins_h:"Plataforma de contratos de seguros",ins_p:"APIs REST para gestionar todo el ciclo de vida de los contratos (auto, salud, viaje, estudiante) y un motor que calcula el presupuesto según el perfil del cliente, las coberturas, la duración y las opciones. Pago online con Payzone.",ins_r:"de tiempo de gestión de presupuestos",ins_tag:"Prototipo · tarifas de ejemplo",
+q_prod:"Producto",p_auto:"Auto",p_health:"Salud",p_travel:"Viaje",p_student:"Estudiante",q_age:"Edad del cliente",q_dur:"Duración (meses)",q_cov:"Cobertura",c1:"Básica",c2:"Plus",c3:"Premium",o1:"Asistencia 24 h",o2:"Defensa jurídica",o3:"Sin franquicia",
+b_base:"base",b_age:"factor edad",b_cov:"cobertura",b_opt:"opciones",b_dur:"duración",per:"/ mes",total:"total",
+drv_eb:"Logística · móvil",drv_h:"Connect Camion · app del conductor",drv_p:"Una app Flutter modular para conductores de camión: viajes asignados, estado en tiempo real e historial completo desde las APIs de Connect Camion. El conductor reporta incidencias con comentario, audio o fotos, y el gestor las recibe al momento.",drv_r:"Gestión de incidencias más rápida y mejor comunicación conductor ↔ gestor",drv_tag:"Prototipo · toca un viaje y reporta una incidencia",
+feed_h:"Panel del gestor · incidencias",feed_empty:"Aún no hay incidencias. Reporta una desde el móvil.",my_trips:"Mis viajes",back:"← Volver",report:"Reportar incidencia",inc_type:"Tipo",it1:"Retraso",it2:"Avería",it3:"Mercancía dañada",it4:"Carretera cortada",comment:"Comentario",photos:"Fotos",submit:"Enviar al gestor",sent:"Enviado. El gestor ya la tiene.",s1:"En curso",s2:"Asignado",s3:"Entregado",cargo:"Carga",eta:"Llegada",from:"de",driver:"Conductor",
+farm_eb:"Agricultura · seguimiento IoT",farm_h:"Seguimiento de maquinaria agrícola",farm_p:"Una app Android que sigue la maquinaria agrícola en tiempo real: ubicación, estado en marcha o en pausa y alertas automáticas cuando las horas de uso llegan al umbral de mantenimiento preventivo.",farm_r:"de productividad agrícola",farm_tag:"Prototipo · flota simulada, umbral de mantenimiento 250 h",f_pause:"Pausar",f_play:"Reanudar",f_fast:"Velocidad ×10",f_norm:"Velocidad normal",run:"en marcha",pause:"en pausa",alert:"mantenimiento",
+arch_eb:"Cómo funciona el agente",arch_h:"Arquitectura del agente con Spring AI",arch_p:"El diseño en producción detrás del agente de soporte de arriba.",
+proj_eb:"Otros proyectos entregados",proj_h:"Otros proyectos",exp_eb:"Experiencia y formación",exp_h:"Trayectoria",sk_eb:"Herramientas",sk_h:"Habilidades e idiomas",sk1:"Backend e IA",sk2:"Frontend y móvil",sk3:"Datos y DevOps",sk4:"Idiomas",
+l_fr:"Francés · profesional",l_en:"Inglés · profesional",l_ar:"Árabe · nativo",l_es:"Español · aprendiendo",
+ct_eb:"Contacto",ct_h:"¿Buscas un ingeniero Java / IA en Granada o en remoto?",ct_p:"Estoy abierto a puestos Full Stack, Java y AI Engineer, sobre todo en proyectos internacionales en inglés o francés.",copy:"Copiar",copied:"Copiado",ct_li:"Escríbeme por LinkedIn",foot:"Los prototipos usan datos de ejemplo. Hecho por Mouad Elgoual · Granada, 2026.",
+nores:"No encontré esa información en mis documentos. Abriría un ticket para el equipo adecuado.",hi:"¡Hola! Respondo preguntas de RR. HH. e IT a partir de los documentos de la empresa. Prueba una de las preguntas de abajo.",src:"fuente",dom:"dominio",ms:"ms"}
+};
+
+/* ---------- knowledge base for the agent ---------- */
+const KB=[
+{id:"HR-Leave-Policy §2",dom:"HR",kw:["vacation","holiday","holidays","leave","days","off","vacances","congé","congés","jours","vacaciones","días","dias","permiso"],
+ a:{en:"Full-time employees get 25 working days of paid leave per year. Requests go through the HR portal at least 15 days in advance and your manager approves them.",
+    fr:"Les salariés à temps plein ont 25 jours ouvrés de congés payés par an. La demande se fait sur le portail RH au moins 15 jours à l'avance, puis votre manager la valide.",
+    es:"Los empleados a jornada completa tienen 25 días laborables de vacaciones pagadas al año. Se solicitan en el portal de RR. HH. con al menos 15 días de antelación y las aprueba tu responsable."}},
+{id:"HR-Remote-Work §1",dom:"HR",kw:["remote","home","telework","teletravail","télétravail","maison","distance","teletrabajo","casa","remoto"],
+ a:{en:"You can work remotely up to 2 days per week after your trial period, agreed with your manager. Core hours are 10:00–16:00.",
+    fr:"Vous pouvez télétravailler jusqu'à 2 jours par semaine après la période d'essai, en accord avec votre manager. Les heures de présence obligatoire sont 10h–16h.",
+    es:"Puedes teletrabajar hasta 2 días por semana tras el periodo de prueba, de acuerdo con tu responsable. El horario fijo es de 10:00 a 16:00."}},
+{id:"HR-Expenses §4",dom:"HR",kw:["expense","expenses","refund","reimburse","reimbursement","receipt","frais","note","remboursement","rembourser","gastos","reembolso","ticket","factura"],
+ a:{en:"Submit expenses with the receipt photo in the expenses app within 30 days. Approved expenses are paid with the next monthly salary.",
+    fr:"Déclarez vos frais avec la photo du justificatif dans l'application de notes de frais sous 30 jours. Les frais validés sont remboursés avec le salaire du mois suivant.",
+    es:"Registra tus gastos con la foto del recibo en la app de gastos en un plazo de 30 días. Los gastos aprobados se pagan con la nómina del mes siguiente."}},
+{id:"HR-Training §3",dom:"HR",kw:["training","course","certification","learn","formation","cours","certification","apprendre","formación","curso","certificación"],
+ a:{en:"Each employee has a training budget of €1,000 per year for courses and certifications. Ask your manager, then book it through the HR portal.",
+    fr:"Chaque salarié dispose d'un budget formation de 1 000 € par an pour des cours et certifications. Demandez l'accord de votre manager puis réservez via le portail RH.",
+    es:"Cada empleado tiene un presupuesto de formación de 1.000 € al año para cursos y certificaciones. Pide el visto bueno a tu responsable y resérvalo en el portal de RR. HH."}},
+{id:"IT-VPN-Guide §1",dom:"IT",kw:["vpn","connect","connection","network","access","connexion","réseau","accès","conectar","conexión","red","acceso"],
+ a:{en:"Install the company VPN client from the IT software center, sign in with your company account and approve the MFA notification. If it fails, restart the client and check your internet connection.",
+    fr:"Installez le client VPN depuis le centre logiciel IT, connectez-vous avec votre compte entreprise et validez la notification MFA. En cas d'échec, redémarrez le client et vérifiez votre connexion internet.",
+    es:"Instala el cliente VPN desde el centro de software de IT, inicia sesión con tu cuenta de empresa y aprueba la notificación MFA. Si falla, reinicia el cliente y revisa tu conexión a internet."}},
+{id:"IT-Accounts §2",dom:"IT",kw:["password","reset","locked","login","account","mot","passe","réinitialiser","bloqué","compte","contraseña","restablecer","bloqueada","cuenta"],
+ a:{en:"Reset your password yourself at the self-service portal with MFA. After 5 failed attempts the account locks for 15 minutes.",
+    fr:"Réinitialisez votre mot de passe vous-même sur le portail libre-service avec MFA. Après 5 tentatives échouées, le compte est bloqué 15 minutes.",
+    es:"Restablece tu contraseña tú mismo en el portal de autoservicio con MFA. Tras 5 intentos fallidos, la cuenta se bloquea 15 minutos."}},
+{id:"IT-Equipment §5",dom:"IT",kw:["laptop","computer","screen","monitor","equipment","ordinateur","portable","écran","matériel","portátil","ordenador","pantalla","equipo"],
+ a:{en:"Request new equipment with an IT ticket of type 'Hardware'. Standard laptops are delivered in 3 working days; extra screens need manager approval.",
+    fr:"Demandez du matériel via un ticket IT de type « Matériel ». Les ordinateurs standard sont livrés en 3 jours ouvrés ; les écrans supplémentaires demandent l'accord du manager.",
+    es:"Solicita equipo con un ticket de IT de tipo «Hardware». Los portátiles estándar se entregan en 3 días laborables; las pantallas adicionales requieren aprobación del responsable."}}
+];
+const SUGG={en:["How many vacation days do I have?","How do I connect to the VPN?","I forgot my password","Can I work from home?"],
+fr:["Combien de jours de congés j'ai ?","Comment me connecter au VPN ?","J'ai oublié mon mot de passe","Puis-je télétravailler ?"],
+es:["¿Cuántos días de vacaciones tengo?","¿Cómo me conecto a la VPN?","Olvidé mi contraseña","¿Puedo teletrabajar?"]};
+
+let L="en";
+function norm(s){return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9 ]/g," ").split(/\s+/).filter(w=>w.length>2)}
+const KBN=KB.map(d=>({...d,nk:new Set(d.kw.map(k=>norm(k)[0]||k))}));
+function retrieve(q){
+  const w=norm(q);
+  const scored=KBN.map(d=>({d,s:w.reduce((a,x)=>a+(d.nk.has(x)?1:([...d.nk].some(k=>k.length>4&&(x.startsWith(k.slice(0,5))))?0.6:0)),0)})).filter(x=>x.s>0).sort((a,b)=>b.s-a.s);
+  return scored.slice(0,2);
+}
+const log=document.getElementById("log");
+function add(role,html){const m=document.createElement("div");m.className="msg "+role;m.innerHTML=html;log.appendChild(m);log.scrollTop=log.scrollHeight;return m}
+function esc(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function ask(q){
+  if(!q.trim())return;
+  add("user",esc(q));
+  const t0=performance.now();
+  const hits=retrieve(q);
+  const pending=add("bot","…");
+  setTimeout(()=>{
+    const ms=Math.round(performance.now()-t0+120+Math.random()*90);
+    if(!hits.length){pending.innerHTML=esc(T[L].nores)+`<div class="trace"><span class="t">${T[L].dom}: —</span><span class="t">${ms} ${T[L].ms}</span></div>`;return}
+    const top=hits[0].d;
+    pending.innerHTML=esc(top.a[L])+`<div class="trace"><span class="t ${top.dom.toLowerCase()}">${T[L].dom}: ${top.dom}</span>${hits.map(h=>`<span class="t">${T[L].src}: ${h.d.id}</span>`).join("")}<span class="t">${ms} ${T[L].ms}</span></div>`;
+  },420);
+}
+document.getElementById("askf").addEventListener("submit",e=>{e.preventDefault();const i=document.getElementById("q");ask(i.value);i.value=""});
+function renderAgent(){
+  log.innerHTML="";add("bot",esc(T[L].hi));
+  const s=document.getElementById("sugg");s.innerHTML="";
+  SUGG[L].forEach(q=>{const b=document.createElement("button");b.type="button";b.textContent=q;b.onclick=()=>ask(q);s.appendChild(b)});
+  document.getElementById("q").placeholder=T[L].ph;
+}
+
+/* ---------- insurance quote ---------- */
+const BASE={auto:38,health:46,travel:14,student:9};
+function quote(){
+  const p=qp.value,age=Math.min(85,Math.max(18,+qa.value||18)),dur=+qd.value,cov=+qc.value;
+  let ageF = p==="auto" ? (age<25?1.45:age<65?1:1.25) : p==="health" ? (1+Math.max(0,age-30)*0.018) : p==="travel" ? (age>65?1.4:1) : (age>30?1.3:1);
+  const opts=(o1.checked?6:0)+(o2.checked?3.5:0)+(o3.checked?(p==="auto"?11:5):0);
+  const durF = dur>=24?0.9:dur>=12?0.95:dur>=6?1:1.08;
+  const monthly=(BASE[p]*ageF*cov+opts)*durF;
+  const t=T[L];
+  qprice.innerHTML=`${monthly.toFixed(2)} € <small>${t.per}</small>`;
+  qb.innerHTML=`${t.b_base} ${BASE[p].toFixed(2)} € × ${t.b_age} ${ageF.toFixed(2)} × ${t.b_cov} ${cov}<br>+ ${t.b_opt} ${opts.toFixed(2)} € · ${t.b_dur} ×${durF}<br>${t.total} ${dur} m = <b>${(monthly*dur).toFixed(2)} €</b>`;
+}
+const [qp,qa,qd,qc,o1,o2,o3,qprice,qb]=["qp","qa","qd","qc","o1","o2","o3","qprice","qb"].map(id=>document.getElementById(id));
+document.getElementById("qf").addEventListener("input",quote);
+document.getElementById("qf").addEventListener("submit",e=>e.preventDefault());
+
+/* ---------- driver app ---------- */
+const TRIPS=[
+ {id:"T-2041",from:"Tanger Med",to:"Casablanca",cargo:{en:"Auto parts · 18 t",fr:"Pièces auto · 18 t",es:"Recambios · 18 t"},eta:"14:30",st:1},
+ {id:"T-2042",from:"Casablanca",to:"Marrakech",cargo:{en:"Food · 12 t",fr:"Alimentaire · 12 t",es:"Alimentación · 12 t"},eta:"Tomorrow 09:00",st:2},
+ {id:"T-2037",from:"Agadir",to:"Casablanca",cargo:{en:"Vegetables · 20 t",fr:"Légumes · 20 t",es:"Verduras · 20 t"},eta:"—",st:3}];
+let view={name:"list"};const incidents=[];
+function renderPhone(){
+  const t=T[L],sc=document.getElementById("screen");
+  if(view.name==="list"){
+    sc.innerHTML=`<h4>${t.my_trips}</h4>`+TRIPS.map((x,i)=>`<button type="button" class="trip" data-i="${i}"><div class="r">${x.from} → ${x.to}</div><div class="m">${x.id} · ${x.cargo[L]}</div><span class="st s${x.st}">${t["s"+x.st]}</span></button>`).join("");
+    sc.querySelectorAll(".trip").forEach(b=>b.onclick=()=>{view={name:"trip",i:+b.dataset.i};renderPhone()});
+  } else {
+    const x=TRIPS[view.i];
+    sc.innerHTML=`<button type="button" class="linkbtn" id="bk">${t.back}</button><h4>${x.from} → ${x.to}</h4>
+    <div class="m mono" style="font-size:12px;color:var(--muted);margin-bottom:10px">${x.id} · ${t.cargo}: ${x.cargo[L]}<br>${t.eta}: ${x.eta}</div>
+    <form id="incf"><strong style="font-size:13px">${t.report}</strong>
+      <label for="ityp">${t.inc_type}</label><select id="ityp"><option>${t.it1}</option><option>${t.it2}</option><option>${t.it3}</option><option>${t.it4}</option></select>
+      <label for="icom">${t.comment}</label><textarea id="icom" rows="3">${L==="fr"?"Bouchon à l'entrée de la ville, ~40 min de retard.":L==="es"?"Atasco a la entrada de la ciudad, unos 40 min de retraso.":"Traffic jam at the city entrance, about 40 min late."}</textarea>
+      <label for="iph">${t.photos}</label><input id="iph" type="file" accept="image/*" multiple>
+      <button class="btn primary" type="submit" style="justify-content:center">${t.submit}</button><p id="ok" class="empty" hidden>${t.sent}</p></form>`;
+    sc.querySelector("#bk").onclick=()=>{view={name:"list"};renderPhone()};
+    sc.querySelector("#incf").addEventListener("submit",e=>{e.preventDefault();
+      const f=sc.querySelector("#iph").files;
+      incidents.unshift({trip:x,type:sc.querySelector("#ityp").value,com:sc.querySelector("#icom").value,ph:f?f.length:0,time:new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})});
+      sc.querySelector("#ok").hidden=false;renderFeed();});
+  }
+}
+function renderFeed(){
+  const t=T[L],f=document.getElementById("feed");
+  if(!incidents.length){f.innerHTML=`<p class="empty">${t.feed_empty}</p>`;return}
+  f.innerHTML=incidents.map(i=>`<div class="inc"><strong>${esc(i.type)}</strong> · ${i.trip.from} → ${i.trip.to}<div>${esc(i.com)}</div><div class="m">${i.trip.id} · ${t.driver}: Youssef B. · ${i.time}${i.ph?` · ${i.ph} 📷`:""}</div></div>`).join("");
+}
+
+/* ---------- farm tracker ---------- */
+const cv=document.getElementById("farm"),cx=cv.getContext("2d");
+const M=[{n:"Tractor JD-01",h:231.5,x:80,y:70,dx:1,run:true,lane:70},{n:"Harvester CL-02",h:118.2,x:300,y:160,dx:-1,run:true,lane:160},{n:"Sprayer AM-03",h:248.6,x:200,y:250,dx:1,run:true,lane:250},{n:"Tractor NH-04",h:74.0,x:460,y:300,dx:0,run:false,lane:300}];
+let simPaused=false,speed=1;
+function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()}
+function drawFarm(){
+  const W=cv.width,H=cv.height;
+  cx.fillStyle=css("--accent-soft");cx.fillRect(0,0,W,H);
+  cx.strokeStyle=css("--line");cx.lineWidth=1;
+  for(let y=20;y<H;y+=22){cx.beginPath();cx.moveTo(20,y);cx.lineTo(W-20,y);cx.stroke()}
+  cx.strokeStyle=css("--muted");cx.setLineDash([5,5]);cx.strokeRect(20,20,W-40,H-40);cx.setLineDash([]);
+  cx.fillStyle=css("--muted");cx.font="11px 'IBM Plex Mono', monospace";cx.fillText("Parcelle / Field A · 42 ha",28,36);
+  M.forEach(m=>{
+    const al=m.h>=250, col= al?css("--bad"): m.run?css("--accent"):css("--muted");
+    cx.fillStyle=col;cx.beginPath();cx.arc(m.x,m.y,9,0,Math.PI*2);cx.fill();
+    if(m.run&&!al){cx.strokeStyle=col;cx.globalAlpha=.35;cx.beginPath();cx.arc(m.x,m.y,15,0,Math.PI*2);cx.stroke();cx.globalAlpha=1}
+    cx.fillStyle=css("--ink");cx.font="600 11px 'IBM Plex Sans', sans-serif";cx.fillText(m.n.split(" ")[1],m.x+13,m.y-10);
+  });
+}
+function renderMach(){
+  const t=T[L];
+  document.getElementById("mach").innerHTML=M.map(m=>{const al=m.h>=250;const cls=al?"alert":m.run?"run":"pause";const lab=al?t.alert:m.run?t.run:t.pause;
+    return `<div class="row"><div><div class="n">${m.n}</div><div class="h">${m.h.toFixed(1)} h / 250 h</div></div><span class="pill ${cls}">${lab}</span></div>`}).join("");
+}
+let last=performance.now();
+function tick(now){
+  const dt=Math.min(0.05,(now-last)/1000);last=now;
+  if(!simPaused){
+    M.forEach(m=>{
+      if(m.h>=250){m.run=false}
+      if(m.run){m.x+=m.dx*40*dt*speed;if(m.x>cv.width-40||m.x<40){m.dx*=-1;m.lane=m.lane+(m.lane<cv.height-60?22:-66);m.y=Math.min(cv.height-40,Math.max(50,m.lane))}m.h+=dt*speed*0.35}
+    });
+    if(Math.random()<0.002*speed){const m=M[3];if(m.h<250){m.run=!m.run;if(!m.dx)m.dx=1}}
+  }
+  drawFarm();
+  if(Math.floor(now/400)!==Math.floor((now-dt*1000)/400))renderMach();
+  requestAnimationFrame(tick);
+}
+document.getElementById("fpause").onclick=e=>{simPaused=!simPaused;e.target.textContent=simPaused?T[L].f_play:T[L].f_pause};
+document.getElementById("ffast").onclick=e=>{speed=speed===1?10:1;e.target.textContent=speed===1?T[L].f_fast:T[L].f_norm};
+
+/* ---------- other projects & timeline ---------- */
+const PROJ=[
+ {eb:{en:"Public sector · dashboard",fr:"Secteur public · tableau de bord",es:"Sector público · panel"},h:{en:"MCINET inspection services",fr:"Digitalisation des services de contrôle (MCINET)",es:"Digitalización de servicios de control (MCINET)"},p:{en:"Interactive KPI dashboard with charts and heat maps, automatic report generation with real-time data validation, and an optimized MySQL store for performance metrics.",fr:"Tableau de bord interactif avec graphiques et cartes thermiques, génération automatique de rapports avec validation des données en temps réel, et base MySQL optimisée pour les métriques.",es:"Panel interactivo de indicadores con gráficos y mapas de calor, generación automática de informes con validación en tiempo real y una base MySQL optimizada para las métricas."},s:["Node.js","React","MySQL","Microservices"],r:{en:"−30% reporting errors",fr:"−30 % d'erreurs de reporting",es:"−30 % de errores en informes"}},
+ {eb:{en:"Property management · mobile",fr:"Syndic · mobile",es:"Comunidades · móvil"},h:{en:"Digital building management",fr:"Digitalisation des services de syndic",es:"Gestión digital de comunidades"},p:{en:"Incident management app (create, assign, close) with push notifications, photo history per intervention, and real-time payment tracking synced with the admin panel.",fr:"Application de gestion des incidents (création, assignation, clôture) avec notifications push, historique photo par intervention et suivi des paiements en temps réel synchronisé avec l'admin.",es:"App de gestión de incidencias (crear, asignar, cerrar) con notificaciones push, historial con fotos por intervención y seguimiento de pagos en tiempo real sincronizado con el panel."},s:["Android","Java","Firestore"],r:{en:"No more disputes over payment proof",fr:"Fin des litiges sur la preuve de paiement",es:"Sin disputas sobre justificantes de pago"}},
+ {eb:{en:"Health · web",fr:"Santé · web",es:"Salud · web"},h:{en:"Nearby healthcare finder",fr:"Solution de santé à proximité",es:"Buscador de salud cercano"},p:{en:"Responsive Angular 17 + Tailwind interface with Google Maps API, smart filtering and real-time data in Firestore. Built during my internship at MOENN Technologies.",fr:"Interface Angular 17 + Tailwind responsive avec Google Maps API, filtrage intelligent et données en temps réel sur Firestore. Réalisé pendant mon stage chez MOENN Technologies.",es:"Interfaz responsive con Angular 17 + Tailwind, Google Maps API, filtrado inteligente y datos en tiempo real en Firestore. Hecho durante mis prácticas en MOENN Technologies."},s:["NestJS","Angular 17","Tailwind","Firestore"],r:{en:"−70% search time",fr:"−70 % de temps de recherche",es:"−70 % de tiempo de búsqueda"}},
+ {eb:{en:"SaaS · e-commerce",fr:"SaaS · e-commerce",es:"SaaS · e-commerce"},h:{en:"Online store builder",fr:"Plateforme e-commerce SaaS",es:"Plataforma e-commerce SaaS"},p:{en:"Microservices platform that creates online stores automatically, with customizable templates and simple product and order management.",fr:"Plateforme microservices qui crée automatiquement des boutiques en ligne, avec templates personnalisables et gestion simple des produits et commandes.",es:"Plataforma de microservicios que crea tiendas online automáticamente, con plantillas personalizables y gestión sencilla de productos y pedidos."},s:["Java","Spring Boot","Microservices","Angular","JUnit"],r:{en:"Store online in under 5 minutes",fr:"Boutique en ligne en moins de 5 minutes",es:"Tienda online en menos de 5 minutos"}}
+];
+const TL=[
+ {d:{en:"Oct 2026 – now",fr:"Oct. 2026 – auj.",es:"Oct. 2026 – hoy"},h:{en:"Master's in Computer Engineering",fr:"Master en Ingénierie Informatique",es:"Máster en Ingeniería Informática"},o:"ETSIIT · Universidad de Granada",p:null},
+ {d:{en:"Sep 2024 – now",fr:"Sept. 2024 – auj.",es:"Sept. 2024 – hoy"},h:{en:"Full Stack Software Engineer",fr:"Ingénieur Full Stack",es:"Ingeniero Full Stack"},o:"Freelance",p:{en:"AI support agent (Spring Boot, RAG, multi-LLM), insurance platform, Connect Camion driver app, MCINET dashboard, property management and farm tracking apps.",fr:"Agent IA de support (Spring Boot, RAG, multi-LLM), plateforme d'assurance, app chauffeur Connect Camion, tableau de bord MCINET, apps de syndic et de suivi agricole.",es:"Agente de IA de soporte (Spring Boot, RAG, multi-LLM), plataforma de seguros, app de conductores Connect Camion, panel MCINET, apps de comunidades y de seguimiento agrícola."}},
+ {d:{en:"Mar – Jul 2024",fr:"Mars – juil. 2024",es:"Mar. – jul. 2024"},h:{en:"Full Stack Engineer Intern",fr:"Stagiaire ingénieur Full Stack",es:"Ingeniero Full Stack en prácticas"},o:"MOENN Technologies · Casablanca",p:null},
+ {d:{en:"2021 – 2024",fr:"2021 – 2024",es:"2021 – 2024"},h:{en:"State Engineering Degree, Computer Science",fr:"Diplôme d'Ingénieur d'État, Génie Informatique",es:"Título de Ingeniero de Estado, Ingeniería Informática"},o:"EHEI · Oujda",p:null},
+ {d:{en:"Mar – Jun 2023",fr:"Mars – juin 2023",es:"Mar. – jun. 2023"},h:{en:"Full Stack Developer Intern",fr:"Stagiaire développeur Full Stack",es:"Desarrollador Full Stack en prácticas"},o:"EHEI · Oujda",p:null},
+ {d:{en:"2019 – 2021",fr:"2019 – 2021",es:"2019 – 2021"},h:{en:"Specialized Technician in Software Development",fr:"Technicien spécialisé en développement informatique",es:"Técnico especializado en desarrollo de software"},o:"ISTA Lazaret · Oujda",p:null}
+];
+function renderLists(){
+  document.getElementById("pgrid").innerHTML=PROJ.map(p=>`<article class="card"><span class="eyebrow">${p.eb[L]}</span><h3>${p.h[L]}</h3><p>${p.p[L]}</p><div class="stack">${p.s.map(s=>`<span>${s}</span>`).join("")}</div><div class="result">${p.r[L]}</div></article>`).join("");
+  document.getElementById("tl").innerHTML=TL.map(x=>`<div class="it"><div class="d">${x.d[L]}</div><div><h3>${x.h[L]}</h3><div class="org">${x.o}</div>${x.p?`<p>${x.p[L]}</p>`:""}</div></div>`).join("");
+}
+
+/* ---------- i18n ---------- */
+function setLang(l){
+  L=T[l]?l:"en";document.documentElement.lang=L;
+  document.querySelectorAll("[data-i]").forEach(el=>{const k=el.dataset.i;if(T[L][k]!=null)el.textContent=T[L][k]});
+  document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===L));
+  document.getElementById("fpause").textContent=simPaused?T[L].f_play:T[L].f_pause;
+  document.getElementById("ffast").textContent=speed===1?T[L].f_fast:T[L].f_norm;
+  try{localStorage.setItem("lang",L)}catch(e){}
+  renderAgent();quote();renderPhone();renderFeed();renderMach();renderLists();
+}
+document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>setLang(b.dataset.l));
+document.getElementById("copy").onclick=async e=>{const btn=e.currentTarget;try{await navigator.clipboard.writeText("elgoualmouad@gmail.com");btn.textContent=T[L].copied}catch(err){const r=document.createRange();r.selectNodeContents(document.getElementById("mail"));const s=getSelection();s.removeAllRanges();s.addRange(r)}};
+let start="en";
+const h=(location.hash||"").slice(1);
+if(T[h])start=h;else{try{const s=localStorage.getItem("lang");if(T[s])start=s;else throw 0}catch(e){const n=(navigator.language||"en").slice(0,2);if(T[n])start=n}}
+setLang(start);
+requestAnimationFrame(tick);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script><script>mermaid.initialize({startOnLoad:true,theme:matchMedia("(prefers-color-scheme: dark)").matches?"dark":"neutral"});</script>
+</body></html>
